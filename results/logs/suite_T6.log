@@ -1,0 +1,16 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T6: newborn-identity MC (fixed bookkeeping) vs geometric c~
+========================================================================
+  n= 13 r=2 Region I: trials=26351 MC=1.0000+/-0.0000 c~_enum=1.0000 c~_closed=1.0000 [PASS] (3.9s)
+  n= 15 r=2 Region II: trials=29489 MC=0.6664+/-0.0027 c~_enum=0.6667 c~_closed=0.6667 [PASS] (4.0s)
+  n= 21 r=3 Region II: trials=28172 MC=0.7522+/-0.0026 c~_enum=0.7500 c~_closed=0.7500 [PASS] (4.3s)
+  n= 25 r=3 Region II: trials=19535 MC=0.1666+/-0.0027 c~_enum=0.1667 c~_closed=0.1667 [PASS] (4.2s)
+  T6 overall: PASS
+  -> the disclosed 0/72 defect is RESOLVED: trials are now recorded
+     in the post-rotation regime and match Prop. F.1 within binomial error.
+========================================================================
+SUMMARY
+  T6: PASS (16.4s)
+CORE VALIDATION (T1-T6): ALL PASS

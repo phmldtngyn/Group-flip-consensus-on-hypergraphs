@@ -1,0 +1,162 @@
+# ============================================================
+# configs/v2.yaml
+#
+# Configuration for the V2 controlled regression test
+# (truncated balls, disclosed post-hoc re-evaluation).
+#
+# Drives both:
+#   - scripts/measure_pipeline.py   (simulation, aggregation)
+#   - scripts/run_regression.py     (fit + cluster bootstrap)
+#
+# IMPORTANT:
+#   The V2 regression is EXPLORATORY, not confirmatory. The
+#   specification includes C(n) and optionally family:n, but
+#   this is NOT a full (n, q)-cell fixed-effects model: n has
+#   only three levels and q enters continuously.
+#
+# Author: Pham Le Dat Nguyen
+# Last updated: 2026-11
+# ============================================================
+
+# ------------------------------------------------------------
+# Data paths (relative to repo root)
+# ------------------------------------------------------------
+data:
+  # 216 rows, ONE ROW PER RUN (4 families x 3 n x 6 q x 3 seeds).
+  # Column `se` is the batch-means Monte Carlo SE of that run.
+  # (Revision audit: earlier comments described this file as
+  #  cell-aggregated; it is not.)
+  measurements: data/processed/measurements_v2.csv
+
+# ------------------------------------------------------------
+# Dynamics / simulator
+# ------------------------------------------------------------
+simulation:
+  # Number of colors (paper uses Q=2 throughout)
+  Q: 2
+  # Number of independent seeds per (family, n, q, beta) cell
+  seeds: 3
+  # Master seed; per-seed seeds are derived deterministically
+  seed_base: 20240101
+  # Event budget per run (includes burn-in)
+  n_events: 200000
+  # Burn-in discarded before batch means
+  n_burnin: 50000
+  # Batch size for computing within-run SE of M
+  batch_size: 2000
+  # Timestep / event accounting
+  event_clock: true
+
+# ------------------------------------------------------------
+# Graph families
+# ------------------------------------------------------------
+families:
+  - name: 1D
+    kind: cycle
+    params:
+      n: [100, 144, 400]
+      # 1D hypergrid native balls are arcs of size 4r+1;
+      # under the truncated protocol beta = round(q * n) is used
+      # instead, so r is not used in V2. Kept for reference.
+      r_native: null
+
+  - name: 2D
+    kind: torus_king
+    params:
+      linear_size: [10, 12, 20]         # L, with n = L^2
+      n: [100, 144, 400]                # must equal L^2
+      adjacency: king                   # 8-neighbour
+
+  - name: config
+    kind: configuration_model
+    params:
+      n: [100, 144, 400]
+      k: 6                              # target mean degree
+      # Random multigraph drawn once per (family, n) and projected to
+      # a simple graph (self-loops removed, multi-edges merged).
+      # The result is NOT degree-regular; family offsets are
+      # properties of this realization, not of the CM ensemble.
+      projection: simple
+
+  - name: WS
+    kind: watts_strogatz
+    params:
+      n: [100, 144, 400]
+      k: 6
+      p: 0.1
+      rewiring: true
+
+# ------------------------------------------------------------
+# Coverage grid
+# ------------------------------------------------------------
+coverage:
+  # Values of q = beta/n used in the truncated-ball protocol
+  grid: [0.55, 0.60, 0.65, 0.70, 0.75, 0.80]
+  # Ball size per cell: beta = round(q * n); capped at n
+  beta_rule: rounded
+  # Truncation: B_i is the set of the beta nearest nodes under the
+  # graph metric (BFS layering). Ties in the last layer are broken at
+  # random WITH THE RUN SEED, so runs of one cell may differ in B_i. This breaks j in B_i => i in B_j,
+  # so the experiment tests a MODIFIED interaction-set model, not
+  # the native metric-ball dynamics of Theorem 1.
+  truncation: bfs_nearest
+
+# ------------------------------------------------------------
+# Containment observables
+# ------------------------------------------------------------
+containment:
+  # ctilde: conditional containment, computed by subset enumeration
+  # restricted to j in R_i, normalized by sum_i |R_i|
+  ctilde:
+    method: subset_enumeration
+    # cG is also stored (structural diagnostic only)
+  cG:
+    method: popcount_intersection
+    # For equal balls: cG = #{(i,j): |B_i ∩ B_j| = 2β-n} / n^2
+
+# ------------------------------------------------------------
+# Regression (implemented in src/analysis/reanalysis_v2.py)
+# ------------------------------------------------------------
+regression:
+  results_dir: results/tables/reanalysis
+  # Primary specification (manuscript Protocol 1 / SM Protocol F.4):
+  #   reduced: M ~ q + C(family) + C(n)
+  #   full:    M ~ q + ctilde + C(family) + C(n)
+  # Sensitivity: no C(n); categorical q; (n,q)-cell FE; q = beta/n; OLS;
+  #   72 cell means.
+  weighting: wls            # weights 1/se^2 of each run
+  family_norm: all_six_pairwise_contrasts
+  bootstrap:
+    primary: family_stratified_cluster   # clusters within family, runs within q strata
+    sensitivity: [unstratified_two_level_v2, runs_iid, runs_within_cells]
+    B: 2000
+    seed: 9999
+    ci_level: 0.95
+  acceptance:
+    gamma_positive_ci_excludes_zero: true
+    family_norm_reduction_min: 0.30
+
+# ------------------------------------------------------------
+# Limitations surfaced in the paper (for consistency)
+# ------------------------------------------------------------
+limitations:
+  single_graph_per_family_n: true
+  graph_ensemble_ci: false            # CIs do NOT include graph-ensemble uncertainty
+  q_enters_continuously: true
+  n_levels: 3
+  not_full_nq_cell_fe: true
+  family_variation_of_ctilde: 1D_only
+
+# ------------------------------------------------------------
+# Reproducibility
+# ------------------------------------------------------------
+reproducibility:
+  # Code tag associated with this configuration
+  code_tag: v1.0-submission
+  # Output files referenced by the paper
+  expected_outputs:
+    - coefficients.csv
+    - bootstrap.csv
+    - family_norm.csv
+    - regression_summary.json
+    # sensitivity.csv is produced only when --sensitivity is passed

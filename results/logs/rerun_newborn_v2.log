@@ -1,0 +1,13 @@
+1D 100
+1D 144
+1D 400
+2D 100
+2D 144
+2D 400
+config 100
+config 144
+config 400
+WS 100
+WS 144
+WS 400
+wrote /root/rev/data/processed/newborn_test_v2_corrected.csv; rows 72; max |empirical - ctilde| = 0.0070; max |z| = 1.85; cells with ctilde>0: 27

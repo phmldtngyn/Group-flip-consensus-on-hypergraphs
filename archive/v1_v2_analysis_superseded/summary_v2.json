@@ -1,0 +1,20 @@
+{
+  "exact": {
+    "n_records": 3,
+    "H3_violations": 0
+  },
+  "measurements": {
+    "n_rows": 216
+  },
+  "bootstrap": {
+    "n_samples": 500,
+    "ctilde_coef_median": -0.01788347998429679,
+    "ctilde_coef_ci_low": -0.0238011772400963,
+    "ctilde_coef_ci_high": -0.012549698221831789,
+    "ctilde_positive_frac": 0.0,
+    "family_norm_reduction_median": -0.864991619873342,
+    "family_norm_reduction_ci_low": -1.3515172589501294,
+    "family_norm_reduction_ci_high": -0.530311381485355,
+    "family_norm_reduction_gt_30pct": 0.0
+  }
+}

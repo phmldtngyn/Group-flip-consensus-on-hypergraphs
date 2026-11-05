@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "group-flip-consensus"
+version = "1.1.0"
+description = "Reproducibility package for 'Group-flip consensus on hypergraphs'"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.1", "scipy>=1.13", "pandas>=2.2", "statsmodels>=0.14",
+    "numba>=0.60", "matplotlib>=3.9", "networkx>=3.3", "pyyaml>=6.0",
+    "python-flint>=0.6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["unit_tests.py"]

@@ -1,0 +1,3 @@
+# Exact-chain solver grid: the six Region-II cases of main Table 1 / SM Table S2.
+n_values: [9, 15, 17, 21, 23, 25]
+solver_tolerance: 1e-12

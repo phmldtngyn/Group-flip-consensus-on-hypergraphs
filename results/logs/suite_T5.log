@@ -1,0 +1,16 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T5: exact chain, Region II, exhaustive odd n <= 25 (Conjecture 1)
+========================================================================
+  n=  9 r=1 beta= 5 q=0.5556 [NEW]: M=0.754385964912 rational=43/57 f(q)=0.764705882353 diff=-0.010320 orbits=8 iters=76 L1res=1.3e-14 M<f(q)=Y [PASS] (0.0s)
+  n= 15 r=2 beta= 9 q=0.6000 [paper-case]: M=0.773809523810 rational=65/84 f(q)=0.777777777778 diff=-0.003968 orbits=24 iters=77 L1res=1.3e-14 M<f(q)=Y [PASS] (0.0s)
+  n= 17 r=2 beta= 9 q=0.5294 [paper-case]: M=0.741293532338 rational=149/201 f(q)=0.757575757576 diff=-0.016282 orbits=80 iters=90 L1res=1.1e-14 M<f(q)=Y [PASS] (1.2s)
+  n= 21 r=3 beta=13 q=0.6190 [paper-case]: M=0.781710914454 rational=265/339 f(q)=0.783783783784 diff=-0.002073 orbits=80 iters=78 L1res=8.9e-15 M<f(q)=Y [PASS] (1.3s)
+  n= 23 r=3 beta=13 q=0.5652 [NEW]: M=0.757894736842 rational=72/95 f(q)=0.767441860465 diff=-0.009547 orbits=288 iters=86 L1res=1.4e-14 M<f(q)=Y [PASS] (0.1s)
+  n= 25 r=3 beta=13 q=0.5200 [NEW]: M=0.736720554273 rational=319/433 f(q)=0.755102040816 diff=-0.018381 orbits=1088 iters=95 L1res=1.3e-14 M<f(q)=Y [PASS] (0.5s)
+  T5 overall (Conjecture 1 on all cases + paper values reproduced): PASS
+========================================================================
+SUMMARY
+  T5: PASS (3.1s)
+CORE VALIDATION (T1-T6): ALL PASS

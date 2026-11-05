@@ -1,0 +1,1093 @@
+% ============================================================
+% Supplemental Material (v2, complete) for:
+%   Group-flip consensus on hypergraphs: exact stationary band at high
+%   coverage, exact one-dimensional containment, and an exploratory
+%   controlled test of the one-step containment hypothesis
+%
+% Compile: pdflatex -> pdflatex -> pdflatex
+% ============================================================
+
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\allowdisplaybreaks
+
+% ---- Section display: "S1 (A)" while \thesection = A for refs ----
+\renewcommand{\thesection}{\Alph{section}}
+\makeatletter
+\renewcommand{\@seccntformat}[1]{}   % suppress auto prefix; "S# (X)." typed in title
+\makeatother
+
+% ---- Theorem-like environments ----
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{protocol}[theorem]{Protocol}
+\newtheorem{remark}{Remark}[theorem]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{openquestion}[conjecture]{Open}
+\newtheorem{heuristic}[conjecture]{Heuristic}
+
+% ---- Symbols ----
+\newcommand{\ctil}{\tilde{c}}
+\newcommand{\cG}{c_G}
+
+% ---- Table counter uses S-prefix (Table S1, S2, S3) ----
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Supplemental Material:\\
+Group-flip consensus on hypergraphs: exact stationary band at high coverage,
+exact one-dimensional containment, and an exploratory controlled test\\
+of the one-step containment hypothesis}
+
+\author[1]{Pham Le Dat Nguyen}
+\affiliation[1]{organization={Independent Researcher},
+                city={Ha Noi},
+                country={Viet Nam}}
+
+\end{frontmatter}
+
+% ============================================================
+\section*{S0. Notation, labeling rules, and crosswalk to main-text pointers}
+\label{sec:S0}
+% ============================================================
+
+\paragraph{Objects.}
+$H=(V,E)$, $|V|=n$; hypergraph distance $d(\cdot,\cdot)$ = minimum number of
+hyperedge steps (a step from $i$ reaches any node sharing a hyperedge with
+$i$); ball $B_i=B_i(r)=\{j:d(i,j)\le r\}$, $\beta_i=|B_i|$, $\beta$ when
+uniform; coverage $q=\beta/n$; residual $R_i=V\setminus B_i$. Conditions:
+\textbf{R1} $\beta_i>n/2\ \forall i$; \textbf{R2}
+$\mathrm{diam}_H(R_i)\le r\ \forall i$. Dynamics: each node fires at rate
+1; a fire at $i$ moves \emph{all} nodes of color $\sigma_i$ inside $B_i$ to
+a target color drawn uniformly among the $Q-1$ others. Observables:
+stationary majority fraction $M$; epoch counts $K$ (fires between
+consecutive rotations) and $T$ (physical cycle time). Containment:
+$\cG,\ctil$ as in main-text Eq.~(2), with $\ctil=1$ if all residuals empty.
+
+\paragraph{Labeling rules.}
+\emph{Theorem/Proposition/Lemma}: complete proof given here, except where
+the statement's own text explicitly says ``proof sketch'' or ``status:
+validated numerically''; in those cases the label records the intended
+status and the proof gap is stated in the environment body, not hidden.
+\emph{Conjecture}: numerically tested statement, no proof claimed.
+\emph{Heuristic}: structural or scaling claim without a proof attempt.
+\emph{Protocol}: measurement/statistical design, not a mathematical
+theorem. \emph{Remark}: scope clarification; each Remark below is
+normative (it delimits exactly what is and is not claimed). Two
+environments are explicitly downgraded in this document:
+Proposition~\ref{prop:B4} (wrapped regime, numerical only) and
+Proposition~\ref{prop:B5} (sparse configuration model, conditional
+theorem with sketch); their labels are retained for cross-reference but
+their proof status is stated in the body.
+
+\paragraph{Crosswalk.}
+Main-text pointers map as: ``SM \S A''$=$S1 (well-mixed),
+``SM \S B''$=$S2 (geometry), ``SM \S C''$=$S3 (band), ``SM \S D''$=$S4
+(containment), ``SM \S E''$=$S5 (1D), ``SM \S F''$=$S6
+(protocols/validation), ``SM \S S6.5''$=$S6.5 (cluster dependence),
+``SM \S G''$=$S7 (open), ``SM \S H''$=$S8 (numerical validation summary),
+numerical tables$=$S9. The well-mixed limit is S1/A; limitations are in S7.1.
+
+\paragraph{Normalization rule.}
+All exact formulas use $q=\beta/n$. Any pipeline reporting an alternative
+coverage normalization must convert before comparison; no result in this
+SM mixes normalizations.
+
+% ============================================================
+\section{S1 (A). Well-mixed limit: count chain, pure death, consensus, dark horse}
+\label{sec:A}
+% ============================================================
+
+\begin{lemma}[Count-chain reduction]
+\label{lem:A1}
+If $B_i=V$ for all $i$, the color-count vector $x=(x_1,\dots,x_Q)$,
+$\sum_k x_k=n$, is Markov on the simplex with transitions
+$x\to x+x_k(e_l-e_k)$ at rate $x_k/(Q-1)$ for each ordered pair
+$(k,l)$, $k\neq l$.
+\end{lemma}
+\begin{proof}
+A fire at a node of color $k$ (total rate $x_k$, nodes fire at rate 1)
+flips the entire class $k$ (since $B_i=V$) to the target $l$, chosen with
+probability $1/(Q-1)$. The kernel depends only on $x$, hence lumping
+configurations by counts is exact.
+\end{proof}
+
+\begin{lemma}[Pure death of live colors]
+\label{lem:A2}
+Let $L_t$ = number of colors with $\ge1$ node. $L_t$ is pure-death on
+$\{1,\dots,Q\}$ with $L\to L-1$ at rate $n(L-1)/(Q-1)$; $L=1$ absorbing.
+\end{lemma}
+\begin{proof}
+Since every node carries a live color,
+$\sum_{k\ \mathrm{live}}x_k=n$ at all times. A fire from live class $k$
+decreases $L$ iff the target is another live class, probability
+$(L-1)/(Q-1)$; summing over live $k$ gives rate $n(L-1)/(Q-1)$. Targets
+that are absent colors merely relabel the firing class, leaving $L$
+unchanged; no event increases $L$. At $L=1$ the rate is 0.
+\end{proof}
+
+\begin{theorem}[First-consensus time]
+\label{thm:A3}
+Assume all $Q$ colors are initially live; if only $L_0\le Q$ colors are
+live, the sum runs from $\ell=2$ to $L_0$. In time units with node rate 1,
+\[
+E[T_{\mathrm{cons}}]=\frac{Q-1}{n}\sum_{\ell=2}^{Q}\frac{1}{\ell-1}
+=\frac{Q-1}{n}H_{Q-1}\quad\text{(when $L_0=Q$)}.
+\]
+For $Q=2$: $E[T]=1/n$.
+\end{theorem}
+\begin{proof}
+Holding time at level $\ell$ is $\mathrm{Exp}$ with rate
+$n(\ell-1)/(Q-1)$ (Lemma~\ref{lem:A2}); sum the means over
+$\ell=Q,\dots,2$. For $Q=2$ the first fire always merges the two classes.
+\end{proof}
+\begin{remark}[A.3.1]
+\label{rem:A3.1}
+The harmonic form (not a telescoping $(Q-1)/(\ell(\ell-1))$ form) is the
+correct one for whole-class flips; any quoted telescoping prefactor
+corresponds to a different (pair-sampling) update and is not used here.
+\end{remark}
+
+\begin{theorem}[Minority advantage, $Q=2$]
+\label{thm:A4}
+From $(a,n-a)$, the class of mass $a$ wins the first consensus with
+probability $1-a/n$.
+\end{theorem}
+\begin{proof}
+With $Q=2$ the first fire decides: firing node in class $a$
+(prob.\ $a/n$) flips class $a$ into the other color (class $a$ loses);
+otherwise class $a$ wins.
+\end{proof}
+
+\begin{theorem}[Dark horse, $Q=3$, closed form]
+\label{thm:A5}
+Assume $a,b>0$ with $a+b=n$, colors $1,2$ live with masses $a,b$, and
+color $3$ absent. Let $D=a^2+3ab+b^2$. Then the probability $P_k$ that
+color $k$ wins the first consensus is $P_1=b(a+b)/D$, $P_2=a(a+b)/D$,
+$P_3=ab/D$, with $P_1+P_2+P_3=1$. Note $P_3$ is the probability that
+the currently-absent color is regenerated and wins; $P_1$ and $P_2$ are
+win probabilities of the currently-live colors.
+$P_1=\frac{b(a+b)}{D}$,\ $P_2=\frac{a(a+b)}{D}$,\ $P_3=\frac{ab}{D}$,
+and $P_1+P_2+P_3=1$.
+\end{theorem}
+\begin{proof}
+First-step analysis with $F=P_1(a,b\ \mathrm{live})$,
+$G=P_1(b,a\ \mathrm{live})$ (i.e.\ roles swapped),
+$U=P_1(\text{color }1\text{ absent, live }a,b)$: total rate $a+b$;
+\begin{align*}
+(a+b)F &= a\Big[\tfrac12\cdot0+\tfrac12 U\Big]
+       + b\Big[\tfrac12\cdot1+\tfrac12 F\Big],\\
+(a+b)U &= a\Big[\tfrac12 F+\tfrac12\cdot0\Big]
+       + b\Big[\tfrac12 G+\tfrac12\cdot0\Big],\\
+(a+b)G &= b\Big[\tfrac12\cdot0+\tfrac12 U\Big]
+       + a\Big[\tfrac12\cdot1+\tfrac12 G\Big].
+\end{align*}
+Solving the $3\times3$ system: from the first and third,
+$F=(aU+b)/(2a+b)$, $G=(bU+a)/(2b+a)$; substituting into the second gives
+$U\,[2(a+b)-a^2/(2a+b)-b^2/(2b+a)]
+=ab[1/(2a+b)+1/(2b+a)]$. With $t=a+b$, $p=ab$:
+$(2a+b)(2b+a)=2t^2+p$; the bracketed left factor equals
+$3t(t^2+p)/(2t^2+p)$ and the right side $3pt/(2t^2+p)$, hence
+$U=p/(t^2+p)=ab/D$ since $t^2+p=D$. Back-substitution and the
+factorization $2a^2+3ab+b^2=(2a+b)(a+b)$ yield $F=b(a+b)/D$,
+$G=a(a+b)/D$. The sum check is $(a+b)^2+ab=D$.
+\end{proof}
+\begin{remark}[A.5.1]
+\label{rem:A5.1}
+Checks: $a=b\Rightarrow P_1=P_2=2/5$, $P_3=1/5$;
+$a<b\Rightarrow P_1>P_2$ (minority advantage persists);
+$b\to0^+$ recovers Theorem~\ref{thm:A4} limits.
+\end{remark}
+
+\begin{theorem}[General $Q$: first-step linear system]
+\label{thm:A6}
+Order states by number of live colors; consensus states are absorbing
+and every non-consensus state is transient (Lemma~\ref{lem:A2} kills
+colors at positive rate until $L=1$). Winning probabilities are the
+unique solution of the first-step system
+$(I-P_{TT})x=P_{TA}x_A$ over transient states $T$, where $P_{TT}$ is
+substochastic with spectral radius $<1$, hence $I-P_{TT}$ invertible;
+the recursion closes at Theorem~\ref{thm:A5} for $Q=3$ levels.
+\end{theorem}
+\begin{proof}
+Standard Markov-chain hitting-probability theory; invertibility follows
+from transience (Neumann series).
+\end{proof}
+\begin{remark}[A.6.1]
+\label{rem:A6.1}
+This replaces any Schur-complement bookkeeping by an invertibility
+argument that cannot fail; explicit constants for $Q\ge4$ are not
+claimed.
+\end{remark}
+
+% ============================================================
+\section{S2 (B). Coverage and ball geometry}
+\label{sec:B}
+% ============================================================
+
+\begin{proposition}[Ball counts, non-wrap]
+\label{prop:B1}
+On the $d$-dimensional hypergrid with 3-consecutive-node hyperedges per
+axis, one hyperedge step moves $\le2$ lattice sites per axis; the
+per-axis cost of offset $o$ is $\lceil|o|/2\rceil$; in the non-wrap
+regime $|B_r|=\sum_{c_1+\dots+c_d\le r}\prod_k w(c_k)$ with $w(0)=1$,
+$w(c)=4$. Hence $|B_r|=4r+1$ (1D) and $|B_r|=8r^2+1$ (2D).
+\end{proposition}
+\begin{proof}
+Offsets of cost $c\ge1$ are $\{\pm(2c-1),\pm2c\}$ (4 of them);
+convolution over axes gives the count; the 2D evaluation
+$(1+4r)+\sum_{c=1}^{r}4(1+4(r-c))=8r^2+1$ is direct.
+\end{proof}
+
+\begin{proposition}[1D exact: ball, R1, R2]
+\label{prop:B2}
+On the 1D hypergrid: $d(i,j)=\lceil\delta(i,j)/2\rceil$ with $\delta$
+the circular lattice distance; $\beta=\min(n,4r+1)$; and exactly (no
+asymptotic qualifier):
+$\mathrm{R1}\iff 2\beta>n$; \ $\mathrm{R2}\iff \beta=n$ or
+$3\beta\ge2n-1$ \ ($\iff n\le6r+2$ when $\beta=4r+1<n$).
+\end{proposition}
+\begin{proof}
+A 3-node hyperedge step moves $\pm1$ or $\pm2$ sites, giving the distance
+formula and arc balls. R1 is $\beta>n/2$. For R2 with $\beta<n$: the
+residual is an arc of $n-\beta$ nodes, lattice diameter $n-\beta-1$,
+hypergraph diameter $\lceil(n-\beta-1)/2\rceil$; R2 is
+$\lceil(n-\beta-1)/2\rceil\le r$, i.e.\ $n-\beta-1\le2r$; with
+$r=(\beta-1)/4$ this is $2n-2\beta-2\le\beta-1\iff3\beta\ge2n-1$;
+substituting $\beta=4r+1$ gives $n\le6r+2$. Since R1 gives $\beta>n/2$, the residual arc has length $n-\beta<n/2$,
+strictly less than the half-circumference; its hypergraph diameter is
+therefore computed by the circular lattice distance on the residual arc
+itself, with no wrap-around caveat.
+\end{proof}
+\begin{remark}[B.2.1]
+\label{rem:B2.1}
+The finite-size equivalences above replace all ``asymptotically
+$q>2/3$'' statements; asymptotics are corollaries.
+\end{remark}
+
+\begin{proposition}[Coverage radius, non-wrap]
+\label{prop:B3}
+For fixed $0<q<1$ and $d$, the minimal non-wrap radius achieving
+$|B_r|\ge qn$ satisfies $r_{\min}=\Theta(n^{1/d})$ with constants from
+Proposition~\ref{prop:B1}; counting-error shifts $r$ by $O(1)$ since
+$|B_r|$ is strictly increasing in $r$.
+\end{proposition}
+\begin{proof}
+Volume monotonicity pins the radius between consecutive integers.
+\end{proof}
+
+\begin{proposition}[Wrapped regime; numerical evidence only]
+\label{prop:B4}
+For fixed $q$ on $d$-dimensional tori, $|B_r|/n\to$ rescaled diamond
+volume; lattice counts are Riemann sums with $O(n^{-1/d})$ boundary
+layers; monotonicity pins the radius. \emph{Status: numerical evidence,
+not a complete proof.} The Riemann-sum and boundary-layer arguments are
+sketches; they are validated numerically but not promoted to a theorem.
+This statement is \textbf{not} used as a foundation for any containment
+or band result below; it appears only for completeness of the geometry
+section.
+\end{proposition}
+
+\begin{proposition}[Configuration model, sparse; conditional theorem with sketch]
+\label{prop:B5}
+If $(k-1)^{2r+1}=o(n)$ then, plain or simplicity-conditioned,
+$|B_r|/n\to$ the non-backtracking tree volume $/n$ with collision
+probability $o(1)$ (union bound over endpoint checks, each
+$O((k-1)^{2r}/n)$); hence Poisson-type corrections carry no extra
+content in the sparse regime; at the crossover the Poisson form is a
+\emph{conjecture}, not a theorem. \emph{Status: proof sketch.} The
+union-bound argument is not written out in full; the sparse-regime
+limit is used only as motivation for the truncated-ball protocol in
+Protocol~\ref{prot:F4} and is not a hypothesis of any theorem below.
+\end{proposition}
+
+% ============================================================
+\section{S3 (C). Exact band at high coverage}
+\label{sec:C}
+% ============================================================
+
+\setcounter{theorem}{-1}% so next environment is C.0
+
+\begin{lemma}[Entry and initial conditions]
+\label{lem:C0}
+(i) From a monochrome state, the first fire at $i$ creates minority
+$R_i$ whenever $\beta_i>n/2$. (ii) From any strict-majority state, the
+next rotation epoch produces a minority $A\subseteq R_{i}$ for the
+firing node $i$. (iii) Tie states are left at the first event and never
+re-entered. (iv) For any initial configuration (including i.i.d.\
+colorings), the embedded post-rotation chain enters a closed communicating
+class in finite time a.s. Different closed classes may support different
+stationary distributions; however, Lemma~\ref{lem:C5} proves that the
+stationary mean minority fraction is the same on every closed class.
+Consequently, the stationary majority fraction in Theorem~\ref{thm:C6}
+is independent of the initial law and of the choice of closed class.
+\end{lemma}
+\begin{proof}
+(i) The flipped class occupies $B_i$; since $\beta_i>n/2$ it is the new
+majority and the minority is $R_i$. (ii) is Lemma~\ref{lem:C2}.
+(iii) is Proposition~\ref{prop:C1}(tie). (iv) The epoch class is closed
+by Lemma~\ref{lem:C2} and reached at the first rotation/birth epoch,
+which occurs a.s.\ in finite time on a finite state space. Stationary
+distributions of a finite Markov chain with several closed classes need
+not be unique. The class-independence used in Theorem~\ref{thm:C6} is
+\emph{not} a consequence of support on closed classes; it is proved
+separately in Lemma~\ref{lem:C5}.
+\end{proof}
+\begin{remark}[C.0.1]
+\label{rem:C0.1}
+This lemma only justifies using stationary initial data for the
+observables in Theorem~\ref{thm:C6}. It does not assert uniqueness of the
+stationary distribution.
+\end{remark}
+
+\begin{proposition}[Rotation identity, no equal-ball assumption]
+\label{prop:C1}
+Assume $Q=2$ and $\beta_i>n/2$ for every $i$. From a strict-majority
+state $(M,A)$: a rotation occurs iff the firing node lies in $M$; the
+instantaneous rotation rate is $|M|$; at stationarity the rotation-event
+probability equals $E[M]$ (rates 1 per node, total rate $n$). Tie states
+carry zero stationary mass.
+\end{proposition}
+\begin{proof}
+Majority fire at $i$: new class sizes are $|A|+|M\cap B_i|$ vs
+$|M\setminus B_i|$; the margin is
+$|A|+|M\cap B_i|-|M\setminus B_i|=(2\beta_i-n)+2|A\setminus B_i|>0$
+since $\beta_i>n/2$; hence the label swaps (rotation). Minority fire at
+$i$: margin of $M\cup(A\cap B_i)$ over $A\setminus B_i$ only increases;
+no rotation. Rate: each $i\in M$ fires at rate 1 and rotates.
+Stationary rotation probability $=E[|M|]/n=E[M]$. Tie: with $|M|=|A|$,
+the same margin formula (with $|M|-|A|=0$) gives strict majority after
+any fire; strict-majority states map to strict-majority states, so ties
+are transient.
+\end{proof}
+\begin{remark}[C.1.1]
+\label{rem:C1.1}
+In the majority-fire branch only nodes of the \emph{majority} class
+inside $B_i$ flip; minority nodes inside $B_i$ already carry the target
+color and are unchanged. Any wording to the contrary is a labeling
+error and does not affect the margin algebra above.
+\end{remark}
+\begin{remark}[C.1.2]
+\label{rem:C1.2}
+Only $\beta_i>n/2$ per firing node is used; equal balls are \textbf{not}
+required for Proposition~\ref{prop:C1}. Equal balls enter first at
+Lemma~\ref{lem:C3}.
+\end{remark}
+
+\begin{lemma}[Epoch invariant and self-containment]
+\label{lem:C2}
+Under R1$\wedge$R2 with $Q=2$, for every post-rotation minority $A_m$
+with firing node $i_m$: $A_m\subseteq R_{i_m}$; hence $A_m\subseteq B_j$
+for all $j\in A_m$ (``self-containment''), and
+$|A_m|\le n-\beta$.
+\end{lemma}
+\begin{proof}
+Base: Lemma~\ref{lem:C0}(i). Induction: given $A\subseteq R_i$, the next
+fire is uniform on $V$. Branch~1 ($j\in A$): self-containment (from R2
+applied to $R_i\ni j$: $R_i\subseteq B_j$, and $A\subseteq R_i$) gives
+$A\subseteq B_j$, so the minority is erased; the system is monochrome
+and the next fire creates $A'=R_{i'}$. Branch~2 ($i\in M$): by
+Proposition~\ref{prop:C1} a rotation occurs and the new minority is
+$M\setminus B_i\subseteq R_i$. Self-containment of the new minority
+follows again from R2 on $R_i$.
+\end{proof}
+
+\begin{lemma}[Overlap identity; equal balls $\beta$]
+\label{lem:C3}
+Under Lemma~\ref{lem:C2}, for $i$ uniform in $M$:
+$E[|A\cap B_i|\mid a]=\frac{a(\beta-a)}{n-a}$.
+\end{lemma}
+\begin{proof}
+$\sum_{i\in M}|A\cap B_i|=\sum_{j\in A}|B_j\cap M|$. For $j\in A$,
+self-containment gives $B_j\cap A=A$, hence $|B_j\cap M|=\beta-a$.
+Sum $=a(\beta-a)$; divide by $|M|=n-a$.
+\end{proof}
+
+\begin{lemma}[Exact affine linearization]
+\label{lem:C4}
+$E[a_{m+1}\mid a_m=a]=(1-q)(n-a)$.
+\end{lemma}
+\begin{proof}
+Branch~1 (prob.\ $a/n$): $a'=n-\beta$ (Lemma~\ref{lem:C2}).
+Branch~2 (prob.\ $1-a/n$): $a'=n-\beta-a+|A\cap B_i|$, mean
+$n-\beta-a+\frac{a(\beta-a)}{n-a}=\frac{(n-\beta)(n-2a)}{n-a}$ after
+combining over $n-a$. Weighting:
+$\frac{a}{n}(n-\beta)+\frac{n-a}{n}\cdot\frac{(n-\beta)(n-2a)}{n-a}
+=(n-\beta)\frac{a+n-2a}{n}=(1-q)(n-a)$. Affine in $a$ $\Rightarrow$ no
+Jensen gap under any law.
+\end{proof}
+
+\begin{lemma}[Stationary epoch mean and cycle structure]
+\label{lem:C5}
+Let $\pi$ be any invariant distribution of the finite epoch chain;
+$\bar x=E_\pi[a]/n$. Then $\bar x=\frac{1-q}{2-q}$, independent of
+$\pi$; and $P(K=2\mid a)=a/n$, so $E[K]=1+\bar x$.
+\end{lemma}
+\begin{proof}
+Take $\pi$-expectations in Lemma~\ref{lem:C4}:
+$\bar x n=(1-q)(n-\bar x n)\Rightarrow\bar x=(1-q)/(2-q)$; the linear
+equation has a unique solution, hence independence of $\pi$ (and of the
+closed class supporting $\pi$). A cycle has a second fire iff the first
+fire is a minority fire, probability $a/n$ given the epoch state.
+\end{proof}
+
+\begin{theorem}[Exact band curve]
+\label{thm:C6}
+Assume $Q=2$, R1, R2, equal balls $\beta$. Then
+$E[M]=\frac{2-q}{3-2q}$.
+\end{theorem}
+\begin{proof}
+Start the epoch chain in an invariant $\pi$ (exists: finite state space).
+The marked cycle process $(Y_m,\tau_m)$ (reward $Y=\int M\,dt$ over cycle
+$m$, length $\tau$) is then \emph{stationary} (cycles are functionals of
+a stationary chain); they are \textbf{not} independent, and no
+independence is used. By the Birkhoff ergodic theorem for stationary
+sequences, a.s.\ $\frac1M\sum_{m\le M}Y_m\to E[Y\mid\mathcal I]$ and
+$\frac1M\sum\tau_m\to E[\tau\mid\mathcal I]$, $\mathcal I$ the invariant
+$\sigma$-field; since $E[\tau\mid\mathcal I]\ge1/n>0$, the ratio
+converges a.s.\ to $E[Y\mid\mathcal I]/E[\tau\mid\mathcal I]$.
+Conditioning on the closed class entered, these conditional expectations
+equal the class-wise means $E_c[Y],E_c[\tau]$. Compute them: A cycle starts immediately after a rotation and ends at the next
+rotation. Within the first gap (mean $1/n$), the state is non-monochrome;
+if the first fire is a minority fire (probability $a_m/n$ given the
+epoch state), the minority is erased and the subsequent fire (mean gap
+$1/n$) recreates a monochrome-then-newborn state, giving $K=2$;
+otherwise the first fire is a majority fire that rotates the label,
+giving $K=1$. Thus $K\in\{1,2\}$ with $P(K=2\mid a_m)=a_m/n$. Gaps are
+$\mathrm{Exp}$ (mean $1/n$), independent of colors; during the first gap
+$M=(n-a)/n$, during the optional second (monochrome) gap $M=1$; hence
+$E_c[Y]=\frac1n E_c[1-a/n]+\frac1n P_c(K=2)
+=\frac1n(1-\bar x_c)+\frac1n\bar x_c=\frac1n$ and
+$E_c[\tau]=\frac1n(1+\bar x_c)$, where $\bar x_c$ is the class-wise
+mean; Lemma~\ref{lem:C5} gives $\bar x_c=\bar x$ for every class.
+Indeed, since $\pi$ is supported on a closed class, the restriction of
+the epoch chain to that class is itself a finite Markov chain on a
+finite state space; applying Lemma~\ref{lem:C5} to the restricted
+chain gives the class-wise mean $\bar x_c=(1-q)/(2-q)$, independent of
+the choice of class.
+Therefore the ratio equals $\frac{1}{1+\bar x}$ on every class, hence
+a.s.\ overall. Substituting $\bar x=\frac{1-q}{2-q}$:
+$E[M]=\frac{1}{1+\bar x}=\frac{2-q}{3-2q}$.
+\end{proof}
+\begin{remark}[C.6.1]
+\label{rem:C6.1}
+The renewal--reward step uses stationarity + Birkhoff + class-wise
+constancy; the phrase ``i.i.d.\ cycles'' never appears and is not
+needed. Reducibility of the epoch chain is explicitly handled.
+\end{remark}
+
+\begin{corollary}[Threshold location; 2D conditional]
+\label{cor:C7}
+$f(q)=(2-q)/(3-2q)$ is strictly increasing
+($f'=\frac{1}{(3-2q)^2}>0$), $f(1/2)=3/4$, $f(2/3)=4/5$; hence any
+band-predicted crossing of $M=3/4$ lies at $q^\ast_{\rm band}=1/2$,
+below the exact-regime domain edges. For 2D hypergrids the corollary applies \textbf{only where R1$\wedge$R2
+holds}; at the finite sizes used, R1$\wedge$R2 was verified by exhaustive
+BFS (e.g.\ linear size $L=12$, $n=L^2=144$, at $\beta/n\approx0.771$;
+$L=30$, $n=900$, at $\beta/n\approx0.777$); the value $7/9$ is a
+numerical observation, \textbf{not} a theorem, and no 2D threshold
+theorem is claimed.
+\end{corollary}
+\begin{remark}[C.7.1]
+\label{rem:C7.1}
+Any operational threshold $q_{\rm dyn}$ defined by interpolating measured
+$M(q)$ at a level (e.g.\ $3/4$) is a \emph{protocol observable};
+statements about it require the measurement protocol and empirical
+monotonicity, and are labeled Observation, never Theorem.
+\end{remark}
+
+\begin{theorem}[Dwell two-point law]
+\label{thm:C8}
+Under Theorem~\ref{thm:C6}: $E[K]=1+\bar x=\frac{1}{E[M]}$,
+$E[T]=\frac{1+\bar x}{n}$, and
+$\mathrm{CV}_T^2=\frac{7-8q+2q^2}{(3-2q)^2}$.
+\end{theorem}
+\begin{proof}
+$K\in\{1,2\}$ with $P(K=2)=\bar x$ (Lemma~\ref{lem:C5});
+$\tau=G_1+BG_2$ with $G_1,G_2\sim\mathrm{Exp}(n)$ (mean $1/n$),
+$B\sim$Bernoulli$(\bar x)$. The $G$'s are independent of the color
+process (exponential clocks are memoryless and independent of the
+discrete event sequence), and $B$ is a functional of the color state at
+the first gap, hence independent of $G_2$; therefore
+$E[\tau]=(1+\bar x)/n$;
+$\mathrm{Var}(\tau)=\frac1{n^2}+\frac{\bar x}{n^2}
++\frac{\bar x(1-\bar x)}{n^2}=\frac{1+2\bar x-\bar x^2}{n^2}$. With
+$\bar x=\frac{1-q}{2-q}$: $1+\bar x=\frac{3-2q}{2-q}$ and
+$1+2\bar x-\bar x^2=\frac{7-8q+2q^2}{(2-q)^2}$, giving
+$\mathrm{CV}^2=\frac{7-8q+2q^2}{(3-2q)^2}$. $E[K]=1+\bar x=1/E[M]$
+follows from $E[M]=1/(1+\bar x)$.
+\end{proof}
+
+% ============================================================
+\section{S4 (D). Containment theory}
+\label{sec:D}
+% ============================================================
+
+\begin{proposition}[$\cG$ on vertex-transitive and configuration geometries]
+\label{prop:D1}
+With $i,j$ independent uniform: $\cG=E_{i,j}\mathbf1\{R_i\subseteq B_j\}$.
+On vertex-transitive $H$ with uniform $\beta$:
+$\cG=\frac{1}{n}\cdot|\{j:R_i\subseteq B_j\}|$ independent of $i$, i.e.\
+$\cG$ equals the per-residual containment count over $n$. On
+configuration models,
+$\cG=E_i[\,|\{j:R_i\subseteq B_j\}|/n\,]$. This is an ensemble-averaged
+overlap count. It is \emph{not} determined by ball-size dispersion alone:
+two graphs with the same degree sequence, or even the same ball-size
+distribution, can have different $\cG$ because the overlap pattern of
+balls and residuals differs. All values must be computed by BFS/subset
+enumeration; no inference from $\beta$ alone is valid.
+\end{proposition}
+\begin{proof}
+Exchange of expectations and symmetry of $d$ give the stated forms;
+vertex-transitivity makes the inner count $i$-independent.
+\end{proof}
+
+\begin{proposition}[Necessary condition for containment]
+\label{prop:D2}
+If $R_i\subseteq B_j$ then $\mathrm{diam}_H(R_i)\le2r$; hence on
+families with radius $r$, $\ctil>0$ requires some residual of diameter
+$\le2r$. All values must be computed by BFS; no inference from $\beta$
+alone is valid.
+\end{proposition}
+\begin{proof}
+Triangle inequality + supremum over $R_i$.
+\end{proof}
+
+\begin{proposition}[R2 $\Rightarrow$ certain extinction; non-uniform version]
+\label{prop:D3}
+Under R2: for every $i$, $\{j\in R_i:R_i\subseteq B_j\}=R_i$, hence
+the per-residual conditional probability is 1 and $\ctil=1$; moreover
+$\cG=\frac1{n^2}\sum_i|\{j:R_i\subseteq B_j\}|\ge\frac1{n^2}\sum_i|R_i|$.
+If balls are uniform, $\cG=(2\beta-n+1)/n$ in 1D
+(Proposition~\ref{prop:E1}); if not, the per-ball formula uses $\beta_i$.
+\end{proposition}
+\begin{proof}
+R2 gives $R_i\subseteq B_j$ for all $j\in R_i$; the rest is definition.
+\end{proof}
+\begin{remark}[D.3.1]
+\label{rem:D3.1}
+$\ctil=1$ throughout the exact regime is a \emph{consistency
+requirement} on any extinction theory; it is not evidence that $\ctil$
+mediates intermediate-regime effects (main text Sec.~VI).
+\end{remark}
+
+\begin{proposition}[Intersection reformulation, equal balls]
+\label{prop:D4}
+$R_i\subseteq B_j\iff B_i\cup B_j=V\iff|B_i\cap B_j|=2\beta-n$;
+necessary condition $2\beta\ge n$; if $2\beta<n$ then $\cG=0$.
+\end{proposition}
+\begin{proof}
+Inclusion--exclusion; union $\le n$.
+\end{proof}
+
+% ============================================================
+\section{S5 (E). Exact 1D containment and regions}
+\label{sec:E}
+% ============================================================
+
+\begin{proposition}[$\cG$, exact]
+\label{prop:E1}
+On 1D with $\beta=\min(n,4r+1)$:
+$\cG=\min\big(1,\frac{\max(0,2\beta-n+1)}{n}\big)$. In particular at
+$2\beta=n$ the residual is itself a ball and $\cG=1/n\neq0$.
+\end{proposition}
+\begin{proof}
+Residual arc length $n-\beta$; a ball arc of length $\beta$ contains it
+iff its (unique, $\beta$ odd) center lies in an interval of
+$2\beta-n+1$ positions when positive; divide by $n$ centers; cap at 1
+when $\beta=n$. At $2\beta=n$ the count is 1, giving $1/n$.
+\end{proof}
+
+\begin{proposition}[$\ctil$, exact, three regimes]
+\label{prop:E2}
+$\ctil=0$ if $2\beta<n$;
+$\ctil=\frac{2\beta-n+1}{n-\beta}$ if $2\beta\ge n$ and $3\beta<2n-1$
+(value $1/\beta$ at $2\beta=n$); $\ctil=1$ if $\beta\ge\frac{2n-1}{3}$
+(each case with the $\min/\max$ convention at the endpoints). The
+function has a jump $0\to 1/\beta$ at $2\beta=n$ (a finite-size effect)
+and is continuous at the upper boundary $3\beta=2n-1$.
+\end{proposition}
+\begin{proof}
+Admissible firing centers $j\in R$ with $R\subseteq B_j$ form an
+interval of length $2\beta-n+1$; intersect with $R$ (length
+$n-\beta$). If $2\beta<n$, no ball contains $R$. If $2\beta=n$, then $|B_j|=|R|=\beta$
+and containment forces $B_j=R$; the unique center of $R$ (odd $\beta$)
+lies in $R$, giving exactly one admissible firing node. If
+$2\beta>n$ and $3\beta<2n-1$, the admissible interval has length
+$2\beta-n+1$ and lies strictly inside $R$. If $3\beta\ge 2n-1$ the
+interval covers $R$ (ratio 1). Continuity holds at $3\beta=2n-1$.
+\end{proof}
+\begin{remark}[E.2.1]
+\label{rem:E2.1}
+The denominator is $n-\beta$ (residual size), not $\beta$ and not an
+asymptotic $(1-q)$ form; the $+1$ is retained (finite-size exact).
+\end{remark}
+
+\begin{proposition}[Three dynamical regions]
+\label{prop:E3}
+Region~I: $3\beta\ge2n-1$ (R1$\wedge$R2, band applies, $\ctil=1$); Region~II: $n/2<\beta<(2n-1)/3$ (R1 strict for $\beta>(n+1)/2$, R2 false, $0<\ctil<1$); Boundary case: $2\beta=n$ ($\cG=1/n$, $\ctil=1/\beta$); Region~III: $2\beta< n$ (R1 false, $\ctil=0$). Asymptotics $q\ge2/3$, $1/2<q<2/3$, $q\le1/2$ are corollaries.
+\end{proposition}
+\begin{proof}
+Combine Proposition~\ref{prop:B2} with
+Propositions~\ref{prop:E1}--\ref{prop:E2}.
+\end{proof}
+
+\paragraph{Validation E.4.}
+Brute-force bitmask enumeration of all ball pairs for every
+$n\in[12,40]$ and all $r$, \emph{including the boundary case $2\beta=n$
+at $(n,r)=(18,2)$ where $\cG=1/18$ and $\ctil=1/9$}: max
+$|{\rm enum}-{\rm formula}|<10^{-12}$ for both $\cG$ and $\ctil$. Suite
+ships with the code release.
+
+% ============================================================
+\section{S6 (F). Protocols, validation ledger, and disclosures}
+\label{sec:F}
+% ============================================================
+
+\begin{proposition}[Newborn identity; protocol theorem]
+\label{prop:F1}
+From monochrome, the first fire at $i$ creates minority $R_i$;
+conditioning the next event on a minority fire, the firing node is
+uniform in $R_i$ and (with $Q=2$) the target is the majority color;
+extinction occurs iff $R_i\subseteq B_j$; hence the conditional
+extinction probability is
+$|\{j\in R_i:R_i\subseteq B_j\}|/|R_i|$, and averaging over $i$ (weight
+$|R_i|$) gives $\ctil$.
+\end{proposition}
+\begin{proof}
+Direct from the flip rule with $Q=2$.
+\end{proof}
+\begin{remark}[F.1.1 Monte Carlo validation]
+\label{rem:F1.1}
+An initial implementation of the newborn-identity Monte-Carlo test
+contained a bookkeeping defect: the newborn minority tracker was not
+reset after majority-fire rotations, causing the chain to stall in the
+post-rotation regime and returning zero successes across all protocol
+cells. The defect was identified and fixed by explicitly tracking
+monochrome episodes and clearing the tracker on any subsequent event
+(minority fire records a trial; majority fire records nothing). The
+corrected simulator yields conditional extinction probabilities matching
+the geometric $\ctil$ within binomial error (e.g.\ $n=15$, $r=2$:
+29,489 trials, MC $0.6664\pm0.0027$ vs.\ $\ctil=2/3$; $n=25$, $r=3$:
+19,535 trials, MC $0.1666\pm0.0027$ vs.\ $\ctil=1/6$).
+Proposition~\ref{prop:F1} is thereby empirically validated.
+\end{remark}
+
+\begin{proposition}[BFS containment by popcount]
+\label{prop:F2}
+For equal balls,
+$R_i\subseteq B_j\iff\mathrm{popcount}(B_i\ \&\ B_j)=2\beta-n$; the
+$O(n^2)$ algorithm (target $=2\beta-n$; if negative return 0) is exact.
+\end{proposition}
+\begin{proof}
+Proposition~\ref{prop:D4}.
+\end{proof}
+
+\begin{protocol}[Unit tests and solver specification]
+\label{prot:F3}
+(i) \emph{Static:} Propositions~\ref{prop:E1}--\ref{prop:E2} vs brute
+force, $n\in[12,40]$: \textbf{PASSED} ($<10^{-12}$).
+
+(ii) \emph{Exact chain solver:} two implementations are shipped, and the
+manuscript's Table~\ref{tab:S1} uses the first:
+
+(a) \emph{Reachable-orbit solver with dihedral quotient}
+(\texttt{gvm\_validation\_suite.py}, tasks T1 and T5). States are orbits
+of reachable minority sets under the dihedral group $D_n$; the orbit
+BFS is built by applying the fire rule to the orbit representative and
+quotienting the result. The state space is therefore much smaller than
+$2^{n-1}$; reported orbit counts are $8, 24, 80, 80, 288, 1088$ for
+$n=9,15,17,21,23,25$ (Table~\ref{tab:S1}). Transition matrix:
+row-stochastic, entries $1/n$ per firing node; stationary distribution
+by lazy power iteration ($\tfrac12 I+\tfrac12 P$) from the monochrome
+orbit; convergence monitored by the $L^1$ residual
+$\|\pi P-\pi\|_1$, reported as $\le1.4\times10^{-14}$.
+
+(b) \emph{Full-enumeration solver with color symmetry}
+(\texttt{src/exact/exact\_chain\_1d.py}). Enumerates all states with
+minority size $\le(n-1)/2$ (color-complement canonicalization only, no
+dihedral quotient); used as an independent cross-check for
+$n\le21$ and not used to generate any published table. Its state counts
+appear in Table~\ref{tab:S3}.
+
+The description in the main text (``reachable subspace and dihedral
+quotient'') refers to (a). Implementation (b) is documented here only
+to prevent confusion if the repository is inspected directly.
+
+(iii) \emph{Simulator cross-check targets (specified; execution status
+in ledger):} native 1D balls at $(n,r)=(15,2),(17,2),(21,3)$ must
+reproduce $M=0.773810,0.741294,0.781711$ within $\pm0.002$; Region~I:
+1D $n=400$, $q\approx0.75$ vs band $0.83333\pm0.003$; 2D $L=30$ at
+$\beta/n\approx0.777$ (BFS-verified R1$\wedge$R2) vs band
+$\approx0.845\pm0.005$.
+
+(iv) \emph{Newborn MC:} validated per Remark~\ref{rem:F1.1}.
+\end{protocol}
+
+\begin{protocol}[Controlled regression test of the containment hypothesis
+(v1 pre-registered; v2 post-hoc re-evaluation)]
+\label{prot:F4}
+Design as main-text Protocol~1: families \{1D cycle, 2D torus
+king-adjacency, configuration $k=6$, Watts--Strogatz $k=6,p=0.1$\};
+$n\in\{100,144,400\}$; $q\in\{0.55,\dots,0.80\}$;
+truncated balls $\beta=\mathrm{round}(qn)$ by BFS layering
+(this matches the configuration \texttt{configs/v2.yaml} and
+\texttt{measure\_pipeline.py}); $\ctil$ by subset enumeration;
+$Q=2$ simulation $2\times10^5$ events, $5\times10^4$ burn-in, batch
+means 2000 $\Rightarrow$ $M\pm$SE; weighted fits
+$M\sim q+C(\text{family})+C(n)$ (reduced) vs
+$M\sim q+\ctil+C(\text{family})+C(n)$ (full), weights $1/\mathrm{SE}^2$.
+
+\emph{Data structure (normative).} The file
+\texttt{measurements\_v2.csv} contains \(216\) seed-level rows
+(\(4\) families \(\times\) \(3\) sizes \(\times\) \(6\) coverages
+\(\times\) \(3\) seeds). Rows sharing a \((\text{family},n)\) pair share
+a single quenched graph realization; the three seeds vary only the
+dynamics randomness. The regression is fit to these \(216\) rows.
+
+\emph{Graph realizations (normative).} Each family is drawn once per
+\((\text{family},n)\) pair with a fixed seed. The
+configuration-model family is drawn as a random multigraph and projected
+to a simple graph by removing self-loops and merging multi-edges; the
+resulting graph is not degree-regular, and the family offsets in
+Table~\ref{tab:S2} are properties of this specific realization, not of
+the full configuration-model ensemble.
+
+\emph{Bootstrap (normative).} The primary inference uses a two-level
+cluster bootstrap: level~1 resamples the \(12\) \((\text{family},n)\)
+clusters with replacement; level~2 resamples the \(18\) seed-level rows
+within each selected cluster with replacement. \(B=500\), seed \(9999\),
+percentile CIs. The iid bootstrap of the initial v1 analysis treats the
+\(216\) rows as independent and is retained as a sensitivity check only;
+it underestimates variance because it ignores the shared graph
+realizations (see S6.5).
+
+\emph{Family-effect norm (normative).} The reference-invariant norm is
+the \(L^2\)-norm of the three pairwise family contrasts
+(\(2\text{D}-\text{WS}\), \(2\text{D}-\text{config}\),
+\(\text{WS}-\text{config}\)). The reduction statistic is
+\((\|\text{contrasts}_{\text{reduced}}\|-\|\text{contrasts}_{\text{full}}\|)/\|\text{contrasts}_{\text{reduced}}\|\).
+The initial v1 analysis used the non-invariant norm of family
+coefficients relative to the 1D reference; that statistic is not used
+in the v2 re-evaluation.
+
+\emph{Acceptance (fixed in advance):} (a) \(\gamma\) significant and
+positive; (b) reference-invariant family-effect norm reduced
+\(\ge 30\%\).
+
+\emph{Result (cluster bootstrap, primary).} \(\hat\gamma=-0.0165\);
+bootstrap 95\% CI \([-0.0230,+0.0045]\); family-norm reduction median
+\(-0.031\) (95\% CI \([-0.189,+0.075]\)); fraction of samples with
+reduction \(\ge 30\%\): \(0.002\).
+
+\emph{Result (iid bootstrap, sensitivity).} \(\hat\gamma=-0.0179\);
+bootstrap 95\% CI \([-0.0238,-0.0125]\); family-norm reduction median
+\(-0.865\) (95\% CI \([-1.352,-0.530]\)). The last number uses the
+non-invariant reference-relative norm of v1 and is not directly
+comparable to the invariant reduction above.
+
+\emph{Decision.} Under the primary cluster bootstrap, both acceptance
+criteria fail but in the direction of the null: \(\gamma\) is negative
+yet indistinguishable from zero, and the family-effect norm is
+unchanged. Under iid bootstrap, \(\gamma\) is nominally significant
+and the norm appears inflated, but both signals are artifacts of
+ignoring the cluster dependence and of using a reference-dependent
+norm. We report the cluster result as primary.
+
+\emph{Interpretation.} Because v2 changed both the bootstrap scheme and
+the family-effect norm definition after inspecting the data, the result
+is exploratory evidence against the one-step mediation hypothesis, not
+a confirmatory falsification of the hypothesis in general. We do not
+claim that one-step containment plays no role in the intermediate
+regime.
+
+\emph{Limitations (normative):} (1) \(\ctil\) describes only the first
+fire of a newborn from monochrome; (2) it does not describe shrunken or
+fragmented minorities; (3) with four families, \(\ctil\) variation
+concentrates in 1D, limiting power; a continuous geometric family would
+strengthen future tests; (4) criteria failure \(\Rightarrow\) no
+mechanism claim; (5) only \(12\) clusters are available for the primary
+bootstrap, which limits the precision of the cluster-level CI.
+\end{protocol}
+
+\subsection*{S6.5 (F.5). Cluster dependence in quenched-hypergraph simulations}
+\label{sec:cluster_note}
+
+A common practice in simulation-based studies of quenched hypergraph
+dynamics is to resample seed-level runs as if they were independent.
+This is incorrect whenever multiple seeds share the same graph
+realization, as they do in any quenched-geometry protocol: the seeds
+vary only the dynamics randomness, not the geometry. Ignoring this
+dependence inflates the effective sample size and produces
+anti-conservative confidence intervals.
+
+We encountered exactly this artifact in the v1 analysis. The file
+\texttt{measurements\_v2.csv} contains \(216\) seed-level rows; the
+three seeds sharing a \((\text{family},n)\) pair share the same quenched
+graph. Under iid resampling of all \(216\) rows, the \(\tilde c\)
+coefficient was estimated at \(\hat\gamma=-0.0179\) with 95\% CI
+\([-0.0238,-0.0125]\). Under the appropriate two-level cluster
+bootstrap (resampling the \(12\) \((\text{family},n)\) clusters first,
+then the \(18\) rows within each), the same point estimate yields 95\%
+CI \([-0.0230,+0.0045]\) and is not distinguishable from zero at the
+cluster level.
+
+A second, independent artifact appeared in the family-effect norm. The
+v1 analysis measured the norm of family coefficients relative to the 1D
+reference family, giving a median reduction of \(-0.865\) (apparent
+inflation) under \(\tilde c\) control. This norm is not invariant under
+reparametrization: changing which family is the reference changes the
+norm and hence the reduction. The reference-invariant \(L^2\)-norm of
+pairwise family contrasts is the appropriate statistic; under the same
+\(\tilde c\) control it gives a median reduction of \(-0.031\) (95\% CI
+\([-0.189,+0.075]\)), indistinguishable from zero.
+
+We flag both artifacts explicitly because they are likely present in
+other simulation studies of quenched hypergraph models. Two remedies
+are simple: use a two-level cluster bootstrap whenever multiple seeds
+share a graph realization, and use pairwise-contrast norms whenever the
+reference family is arbitrary.
+
+\paragraph{Validation ledger (status at this release).}
+\begin{table*}[t]
+\caption{\label{tab:ledger}
+Validation ledger.}
+\centering
+\begin{tabular}{p{4.8cm}p{4.2cm}p{2.3cm}}
+\hline\hline
+Item & Status & Evidence \\
+\hline
+Static 1D containment vs brute force & PASSED & E.4 \\
+Exact-chain stationary residuals & PASSED ($\le1.4\times10^{-14}$) & Table~\ref{tab:S1} \\
+H3 exhaustive small-$n$ & PASSED (0 violations, 6 cases up to $n=25$) & Table~\ref{tab:S1} \\
+Simulator vs exact chain (1D Region~II) & PASSED ($\pm0.002$) & code release \\
+Simulator vs band (Region~I, 1D \& 2D) & PASSED ($|\Delta|<0.003$) & code release \\
+Newborn MC (F.1) & PASSED (defect fixed, matches $\ctil$) & Remark~\ref{rem:F1.1} \\
+Regression/bootstrap (F.4) & EXECUTED --- both acceptance criteria fail; cluster-primary result is a null result & Table~\ref{tab:S2}; S6.5 \\
+\hline\hline
+\end{tabular}
+\end{table*}
+
+\emph{Normative note:} the main-text sentence asserting simulator
+cross-checks must, at submission, match this ledger (either report
+executed values or state ``targets specified in the code release'').
+
+% ============================================================
+\section{S7 (G). Conjectures and open problems}
+\label{sec:G}
+% ============================================================
+
+\begin{conjecture}[H3]
+\label{conj:G1}
+In Region~II, $M(q)\le f(q)$ for all $n,r$.
+\end{conjecture}
+
+\emph{Evidence.} Exact solutions at odd $n\le25$ (six cases; deviations
+from $-0.0021$ to $-0.0184$; Table~\ref{tab:S1}). Reconstructed
+rationals $43/57$, $65/84$, $149/201$, $265/339$, $72/95$, $319/433$
+(denominators $3\cdot19$, $2^2\cdot3\cdot7$, $3\cdot67$, $3\cdot113$,
+$5\cdot19$, $433$) show no simple universal form; no
+coupling/monotonicity proof known; \textbf{not} promoted to a theorem.
+
+\begin{conjecture}[Scaling near threshold]
+\label{conj:G2}
+Geometric scaling form near $q^\ast$ on $d$-dimensional hypergrids;
+untested; no coefficients quoted.
+\end{conjecture}
+
+\begin{conjecture}[Collapse by $\ctil$: not supported within the tested protocol]
+\label{conj:G3}
+The collapse hypothesis was accepted only if Protocol~\ref{prot:F4}
+criteria held; the protocol does not support it within its tested range.
+\end{conjecture}
+
+\begin{openquestion}[Config--2D gap]
+\label{open:G4}
+Candidates: residual ball-size heterogeneity (partially controlled by
+truncation), expander structure, fractional-radius interpolation;
+required test: size-truncated balls separating heterogeneity from
+geometry (executed in Protocol~\ref{prot:F4}; gap persists as family
+intercepts).
+\end{openquestion}
+
+\begin{heuristic}[Fragmentation]
+\label{heur:G5}
+Below R2 minorities may fragment; no evidence for a low-dimensional
+closed Markov description on shape variables; a heuristic, not a no-go
+theorem.
+\end{heuristic}
+
+\subsection*{S7.1 Limitations and scope of the results}
+\label{sec:limitations}
+
+We state the boundaries of what the present paper establishes, so that
+the claims are read at the correct strength.
+
+\begin{enumerate}
+\item \emph{Regimes without exact analytical characterization.} The
+band (Theorem~\ref{thm:C6}) is proven only under R1$\wedge$R2 with
+equal ball sizes. Region~II ($n/2<\beta<(2n-1)/3$) and Region~III
+($2\beta<n$) have no closed-form stationary characterization here;
+Conjecture~\ref{conj:G1} is numerically supported, not proven.
+\item \emph{Results with numerical evidence only.} Propositions
+\ref{prop:B4} (wrapped torus) and \ref{prop:B5} (sparse configuration
+model) are stated with sketches and validated numerically; they are not
+used as hypotheses of any theorem. Table~\ref{tab:S1} contains
+numerical stationary solutions; the ``rational'' column is a numerical
+reconstruction, not an algebraic certificate.
+\item \emph{Single graph realization per $(\text{family},n)$.} The
+regression in Protocol~\ref{prot:F4} uses one fixed graph per
+$(\text{family},n)$ pair; the 3 seeds vary only dynamics randomness.
+The family offsets in Table~\ref{tab:S2} are therefore properties of
+this specific realization set, not of the full graph ensemble.
+\item \emph{Limited family coverage.} Four families (1D cycle, 2D
+torus, configuration $k=6$, Watts--Strogatz $k=6,p=0.1$) and three
+sizes; $\ctil$ variation concentrates in the 1D family, limiting
+statistical power for the mediation test
+(Protocol~\ref{prot:F4}, limitation~3).
+\item \emph{Interpretation of fragmentation.} The Region-II
+observation $M_{\rm exact}<M_{\rm band}$ is consistent with multi-step
+minority survival, but no theorem identifies fragmentation as the
+mechanism; the ``fragmented survivor'' language is interpretive, not a
+mathematical statement (Heuristic~\ref{heur:G5}).
+\item \emph{Equal-ball assumption.} The band result requires
+$\beta_i\equiv\beta$. Extension to unequal ball sizes is not covered
+here; Propositions~\ref{prop:C1} and \ref{prop:D3} are the only
+statements that do not require equal balls.
+\item \emph{2-section reduction.} As stated in
+the graph-reduction remark of the main text (Remark~1), the dynamics
+depends on the hypergraph only through its 2-section graph. The paper
+characterizes quenched geometric group-flip dynamics on
+hypergraph-induced structures; it does not claim a higher-order
+interaction mechanism independent of the 2-section topology.
+\item \emph{Cluster-level inference.} The primary bootstrap resamples
+the \(12\) \((\text{family},n)\) clusters; this is the correct scheme
+given the shared graph realizations but yields wide cluster-level
+confidence intervals (e.g.\ \(\gamma\) 95\% CI
+\([-0.0230,+0.0045]\)). The iid bootstrap reported in the v1 analysis
+is retained only as a sensitivity check; see S6.5 for the
+methodological note.
+\item \emph{Cell-level standard errors (V2 release).} The aggregation
+stored in \texttt{measurements\_v2.csv} contains only the arithmetic
+mean of seed-level standard errors, not the between-seed variance. The
+proper cell-level SE
+\(\widehat{\mathrm{SE}}_{\mathrm{cell}}^2
+= \frac{1}{R^2}\sum_r s_r^2 + \frac{1}{R}\widehat{\mathrm{Var}}_{\mathrm{between}}(M_r)\)
+requires the second term, which the released CSV does not preserve.
+Because every cell contains exactly \(R=3\) seeds, the fallback weights
+differ from the proper weights by a single global factor; WLS point
+estimates and bootstrap percentile CIs are therefore unaffected, while
+analytic standard errors are conservative by approximately
+\(\sqrt{3}\). All reported inference uses bootstrap CIs, not analytic
+SEs. Regenerating the aggregation with \texttt{M\_std} and
+\texttt{n\_runs} is the recommended fix for any expansion.
+\end{enumerate}
+
+% ============================================================
+\section{S8 (H). Numerical validation summary}
+\label{sec:H}
+% ============================================================
+
+\begin{table*}[t]
+\caption{\label{tab:S1}
+Exact chain, Region~II (exhaustive odd \(n\le25\)). Solver residuals
+\(\le1.4\times10^{-14}\); ``orbits'' = equivalence classes of minority
+sets under the dihedral group \(D_n\). The ``rational'' column is a
+\emph{numerical reconstruction} from the floating-point stationary
+solution; it is not an algebraic certificate. Exact rational
+verification, where reported, used a rational Gauss--Jordan solver;
+for the larger cases only the numerical stationary solution is
+available.}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccccc}
+\hline\hline
+\(n\) & \(r\) & \(\beta\) & \(q\) & \(\cG\) & \(\ctil\) & \(M_{\rm exact}\) & \(M_{\rm band}\) & diff & rational & orbits \\
+\hline
+ 9 & 1 &  5 & 0.5556 & 0.2222222 & 0.5000000 & 0.7543860 & 0.7647059 & \(-0.0103199\) & 43/57   &    8 \\
+15 & 2 &  9 & 0.6000 & 0.2666667 & 0.6666667 & 0.7738095 & 0.7777778 & \(-0.0039683\) & 65/84   &   24 \\
+17 & 2 &  9 & 0.5294 & 0.1176471 & 0.2500000 & 0.7412935 & 0.7575758 & \(-0.0162822\) & 149/201 &   80 \\
+21 & 3 & 13 & 0.6190 & 0.2857143 & 0.7500000 & 0.7817109 & 0.7837838 & \(-0.0020729\) & 265/339 &   80 \\
+23 & 3 & 13 & 0.5652 & 0.1739130 & 0.4000000 & 0.7578947 & 0.7674419 & \(-0.0095471\) & 72/95   &  288 \\
+25 & 3 & 13 & 0.5200 & 0.0800000 & 0.1666667 & 0.7367206 & 0.7551020 & \(-0.0183815\) & 319/433 & 1088 \\
+\hline\hline
+\end{tabular}}
+\end{table*}
+
+% ============================================================
+\section{S9 (I). Numerical appendix}
+\label{sec:I}
+% ============================================================
+
+\begin{table*}[t]
+\caption{\label{tab:S3} Exact chain, Region~II, full-enumeration
+cross-check solver (no dihedral quotient). Only \(n\in\{15,17,21\}\) are
+shown because the full state space \(2^{n-1}\) exceeds the memory budget
+for \(n=23,25\); the six-case exhaustive table is Table~\ref{tab:S1},
+which uses the reachable-orbit solver. Solver residuals
+\(\le9.9\times10^{-13}\); ``rational'' column as in
+Table~\ref{tab:S1}.}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccccccc}
+\hline\hline
+\(n\) & \(r\) & \(\beta\) & \(q\) & \(\cG\) & \(\ctil\) & \(M_{\rm exact}\) & \(M_{\rm band}\) & diff & rational & states & iters & \(L^1\) resid \\
+\hline
+15 & 2 & 9  & 0.6000 & 0.2666667 & 0.6666667 & 0.7738095238 & 0.7777777778 & \(-0.0039683\) & 65/84   & 16\,384    & 65 & \(8.3\times10^{-13}\) \\
+17 & 2 & 9  & 0.5294 & 0.1176471 & 0.2500000 & 0.7412935323 & 0.7575757576 & \(-0.0162822\) & 149/201 & 65\,536    & 75 & \(9.9\times10^{-13}\) \\
+21 & 3 & 13 & 0.6190 & 0.2857143 & 0.7500000 & 0.7817109145 & 0.7837837838 & \(-0.0020729\) & 265/339 & 1\,048\,576 & 65 & \(8.7\times10^{-13}\) \\
+\hline\hline
+\end{tabular}}
+\end{table*}
+
+\begin{table*}[t]
+\caption{\label{tab:S2}
+Regression, Protocol~\ref{prot:F4}. Point estimates and bootstrap
+inference under the two schemes. Primary = two-level cluster bootstrap
+(\(B=500\), \(12\) clusters of \(18\) rows). Sensitivity = iid bootstrap
+(\(B=500\), \(216\) rows). The family-norm reduction in the iid column
+uses the non-invariant reference-relative norm of v1; the primary
+reduction uses the invariant pairwise-contrast norm of v2. Negative
+values = inflation.}
+\centering
+\begin{tabular}{lcccc}
+\hline\hline
+Term & \multicolumn{1}{c}{intercept} & \multicolumn{1}{c}{\(q\)} & \multicolumn{1}{c}{\(\ctil\) (\(\gamma\))} & family \\
+\hline
+Point estimate & \(0.4804028\) & \(0.4999197\) & \(-0.0178670\) & \\
+\hline
+\multicolumn{5}{l}{\textbf{\(\gamma\), 95\% CI}}\\
+\quad iid (sensitivity)      & & & \([-0.02380,\,-0.01255]\) & \\
+\quad cluster (primary)      & & & \([-0.02302,\,+0.00451]\) & \\
+\hline
+\multicolumn{5}{l}{\textbf{Family-norm reduction, median [95\% CI]}}\\
+\quad iid + non-invariant    & & & & \(-0.865\ [-1.352,\,-0.530]\) \\
+\quad cluster + invariant    & & & & \(-0.031\ [-0.189,\,+0.075]\) \\
+\hline
+\multicolumn{5}{l}{Fraction of samples \(\ge 30\%\) reduction: iid \(0.000\), cluster \(0.002\).} \\
+\hline\hline
+\end{tabular}
+\end{table*}
+
+\paragraph{Reproducibility.}
+Code (Numba BFS/containment, exact-chain solver, simulator,
+regression/bootstrap) and raw data
+(\texttt{measurements\_v2.csv}, \texttt{bootstrap.csv},
+\texttt{sensitivity.csv}, \texttt{exact\_1d\_v2.json},
+\texttt{newborn\_test\_v2.csv}) at
+\url{https://github.com/phmldtngyn/Group-flip-consensus-on-hypergraphs}.
+The primary cluster-bootstrap results are in \texttt{sensitivity.csv};
+the iid sensitivity results are in \texttt{bootstrap.csv}. An earlier
+version of measurement with mislabeled coverage of native balls (ball
+size vs.\ degree) was discarded; no reported quantity uses it.
+
+\end{document}

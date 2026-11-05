@@ -1,0 +1,13 @@
+# Versions used for the November 2026 revision audit (Python 3.13.18).
+# Lower bounds are the versions on which the pipeline was verified;
+# exact pins are in requirements-lock.txt.
+numpy>=2.1
+scipy>=1.13
+pandas>=2.2
+statsmodels>=0.14
+numba>=0.60
+matplotlib>=3.9
+networkx>=3.3
+pyyaml>=6.0
+python-flint>=0.6   # exact rational linear algebra (tests/independent)
+pytest>=8.0

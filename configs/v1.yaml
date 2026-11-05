@@ -1,0 +1,16 @@
+# NOTE (revision audit): this file records parameters of an earlier,
+# pre-registered v1 run. Its grid (config family only, n = 144,196,256)
+# does not match the v1 analysis described in the manuscript, and no code in
+# the current repository reads it. Kept for provenance only.
+# Pre-registered v1 configuration
+protocol: "pre-registered"
+# Parameters of the v1 run (where they differ from v2)
+graph_family: "config"
+n_values: [144, 196, 256]
+q_values: [0.55, 0.60, 0.65]
+beta_rule: "round"
+graph_seed: 42
+boundary_seed: 123
+dynamics_seed: 456
+num_runs: 20
+simulation_steps: 100000

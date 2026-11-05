@@ -1,0 +1,14 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T2: brute-force containment at boundary 2*beta = n  (n,r)=(18,2)
+========================================================================
+  beta=9, 2*beta=18=n  (boundary case)
+  cG_enum =0.055555555556  closed=0.055555555556  expect 1/18=0.055555555556
+  c~_enum =0.111111111111  closed=0.111111111111  expect 1/9 =0.111111111111
+  -> revised Eq.(13) middle branch at 2b=n gives 1/beta: [PASS]
+  full sweep n in [12,40]: max |enum - closed| = 0.00e+00 [PASS]
+========================================================================
+SUMMARY
+  T2: PASS (0.0s)
+CORE VALIDATION (T1-T6): ALL PASS

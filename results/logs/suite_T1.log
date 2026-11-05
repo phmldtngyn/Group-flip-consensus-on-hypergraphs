@@ -1,0 +1,14 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T1: exact chain vs band, Region I (Theorem 2 validation)
+========================================================================
+  n= 11 r=2: M_float=0.866666666667  M_rational=13/15  f(q)=13/15  |diff|=2.7e-15  rational_exact=True  orbits=3 iters=53 L1res=8.8e-15  [PASS] (0.0s)
+  n= 13 r=2: M_float=0.809523809524  M_rational=17/21  f(q)=17/21  |diff|=4.4e-16  rational_exact=True  orbits=8 iters=65 L1res=1.0e-14  [PASS] (0.0s)
+  n= 23 r=4: M_float=0.828571428571  M_rational=29/35  f(q)=29/35  |diff|=3.3e-15  rational_exact=True  orbits=24 iters=64 L1res=8.2e-15  [PASS] (0.1s)
+  n= 25 r=4: M_float=0.804878048780  M_rational=33/41  f(q)=33/41  |diff|=2.0e-15  rational_exact=True  orbits=80 iters=71 L1res=8.9e-15  [PASS] (1.1s)
+  T1 overall: PASS
+========================================================================
+SUMMARY
+  T1: PASS (1.2s)
+CORE VALIDATION (T1-T6): ALL PASS

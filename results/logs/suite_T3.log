@@ -1,0 +1,13 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T3: simulator, NATIVE 1D balls, Region I, vs band (tol +/-0.003)
+========================================================================
+  n=400 r=75 beta=301 q=0.7525: M=0.83467+/-0.00013 band=0.83445 diff=+0.00022 [PASS] (2.9s)
+  n=400 r=67 beta=269 q=0.6725: M=0.80231+/-0.00013 band=0.80211 diff=+0.00020 [PASS] (3.0s)
+  n=401 r=70 beta=281 q=0.7007: M=0.81302+/-0.00014 band=0.81279 diff=+0.00023 [PASS] (2.6s)
+  T3 overall: PASS
+========================================================================
+SUMMARY
+  T3: PASS (8.6s)
+CORE VALIDATION (T1-T6): ALL PASS

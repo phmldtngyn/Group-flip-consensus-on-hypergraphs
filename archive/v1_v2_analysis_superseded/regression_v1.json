@@ -1,0 +1,21 @@
+{
+  "regression": {
+    "Intercept": "0.4804027938265786",
+    "C(family)[T.2D]": "-0.029928056119942592",
+    "C(family)[T.WS]": "-0.021659002050522062",
+    "C(family)[T.config]": "-0.030038225267068973",
+    "q": "0.4999196678484891",
+    "ctilde": "-0.017866991023193654"
+  },
+  "bootstrap": {
+    "n_samples": 500,
+    "ctilde_coef_median": -0.01788347998429679,
+    "ctilde_coef_ci_low": -0.0238011772400963,
+    "ctilde_coef_ci_high": -0.012549698221831789,
+    "ctilde_positive_frac": 0.0,
+    "family_norm_reduction_median": -0.864991619873342,
+    "family_norm_reduction_ci_low": -1.3515172589501294,
+    "family_norm_reduction_ci_high": -0.530311381485355,
+    "family_norm_reduction_gt_30pct": 0.0
+  }
+}

@@ -1,0 +1,12 @@
+Running exact solver: n = (9, 15, 17, 21, 23, 25)
+  r = (1, 2, 2, 3, 3, 3)
+  beta = (5, 9, 9, 13, 13, 13)
+  tol = 1e-12, max_iter = 100000
+
+  n=  9  beta=  5  ... M=0.7543859649  M_band=0.7647058824  diff=-1.032e-02  reach=73  [power(501)]  res=9.40e-17
+  n= 15  beta=  9  ... M=0.7738095238  M_band=0.7777777778  diff=-3.968e-03  reach=481  [eigs]  res=4.21e-16
+  n= 17  beta=  9  ... M=0.7412935323  M_band=0.7575757576  diff=-1.628e-02  reach=2177  [power(501)]  res=3.25e-17
+  n= 21  beta= 13  ... M=0.7817109145  M_band=0.7837837838  diff=-2.073e-03  reach=2689  [eigs]  res=4.44e-15
+  n= 23  beta= 13  ... M=0.7578947368  M_band=0.7674418605  diff=-9.547e-03  reach=11777  [eigs]  res=9.42e-15
+  n= 25  beta= 13  ... M=0.7367205543  M_band=0.7551020408  diff=-1.838e-02  reach=51201  [eigs]  res=2.90e-15
+Saved results/tables/exact_b_crosscheck.csv and results/tables/exact_b_crosscheck.json

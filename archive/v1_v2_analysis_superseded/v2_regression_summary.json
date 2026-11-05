@@ -1,0 +1,34 @@
+{
+  "config": "configs\\v2.yaml",
+  "n_cells": 216,
+  "n_runs_total": null,
+  "B": 500,
+  "seed": 9999,
+  "se_method": "fallback",
+  "gamma": {
+    "mean": -0.0164732782736149,
+    "ci_lo": -0.02302222086759187,
+    "ci_hi": 0.004506064494085828,
+    "ci_excludes_zero": false
+  },
+  "family_norm": {
+    "main": {
+      "median": -0.031285842511257614,
+      "ci_lo": -0.18856593034119593,
+      "ci_hi": 0.07487921083383144,
+      "frac_above_threshold": 0.002004008016032064
+    },
+    "with_size": {
+      "median": -0.0358940817729751,
+      "ci_lo": -0.2252057087959692,
+      "ci_hi": 0.10712127970315709,
+      "frac_above_threshold": 0.008016032064128256
+    },
+    "interaction": {
+      "median": -0.9314326352305755,
+      "ci_lo": -1.5645807765212811,
+      "ci_hi": 0.05098629437353129,
+      "frac_above_threshold": 0.0
+    }
+  }
+}

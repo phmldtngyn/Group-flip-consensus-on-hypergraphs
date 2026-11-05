@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the article and this repository."
+title: "Group-flip consensus on hypergraphs: reproducibility package"
+version: 1.1.0
+date-released: "2026-11-05"
+url: "https://github.com/phmldtngyn/Group-flip-consensus-on-hypergraphs"
+license: MIT
+authors:
+  - family-names: "Nguyen"
+    given-names: "Pham Le Dat"
+    affiliation: "Independent Researcher, Ha Noi, Viet Nam"

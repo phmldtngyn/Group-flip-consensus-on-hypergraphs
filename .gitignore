@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.nbi
+*.nbc
+.venv/
+.ipynb_checkpoints/
+# LaTeX build products
+manuscript/*.aux
+manuscript/*.log
+manuscript/*.out
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.fls
+manuscript/*.fdb_latexmk
+manuscript/*.spl
+manuscript/*.synctex.gz
+# local re-runs of the long simulation
+data/raw/
+results/tables/reanalysis_quick/

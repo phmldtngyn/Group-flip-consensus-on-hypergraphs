@@ -1,0 +1,13 @@
+/root/rev/tests/gvm_validation_suite.py:201: SyntaxWarning: invalid escape sequence '\ '
+  A --minority fire k in A-->  A \ B_k        (transient)
+========================================================================
+T4: simulator, NATIVE 2D torus, BFS-verified R1&R2, vs band (tol +/-0.005)
+========================================================================
+  L=12 r=4 n=144 beta=111 q=0.7708 R1=True R2=True: M=0.84291+/-0.00014 band=0.84286 diff=+0.00005 [PASS] (2.0s)
+  L=12 r=5 n=144 beta=135 q=0.9375 R1=True R2=True: M=0.94446+/-0.00004 band=0.94444 diff=+0.00002 [PASS] (1.9s)
+  L=30 r=10 n=900 beta=699 q=0.7767 R1=True R2=True: M=0.84591+/-0.00014 band=0.84562 diff=+0.00029 [PASS] (3.3s)
+  T4 overall: PASS
+========================================================================
+SUMMARY
+  T4: PASS (7.7s)
+CORE VALIDATION (T1-T6): ALL PASS
