@@ -1,7 +1,7 @@
 % ============================================================
 % Group-flip consensus on hypergraphs: exact stationary band at high
 % coverage, exact one-dimensional containment, and an exploratory
-% controlled test of the one-step containment hypothesis
+% test of the one-step containment hypothesis
 %
 % Target: Physica A.  Build:  latexmk -pdf SM.tex && latexmk -pdf main.tex
 % (SM first: main.tex resolves SM labels through xr-hyper.)
@@ -42,7 +42,7 @@
 
 \title{Group-flip consensus on hypergraphs: exact stationary band at
 high coverage, exact one-dimensional containment, and an exploratory
-controlled test of the one-step containment hypothesis}
+test of the one-step containment hypothesis}
 
 \author{Pham Le Dat Nguyen}
 \address{Independent Researcher, Ha Noi, Viet Nam}
@@ -52,7 +52,8 @@ Consensus dynamics on higher-order structures are usually analysed on
 annealed hypergraphs, where geometry enters only through degree or
 hyperedge-size distributions. We study two-colour group-flip dynamics on
 the quenched metric balls of a fixed hypergraph: when a node fires, every
-node of its colour inside its ball changes colour at once. If every ball
+node of its colour inside its ball changes colour at once. The dynamics 
+sees the hypergraph only through its 2-section graph. If every ball
 is a strict majority, every residual is erased by a single fire, and all
 balls have size $\beta$, we prove that the stationary majority fraction
 is $E[M]=(2-q)/(3-2q)$ with $q=\beta/n$, together with a rotation identity
@@ -479,8 +480,9 @@ E[M]=\frac{2-q}{3-2q}.
 The function $f(q)=(2-q)/(3-2q)$ is defined for all $q\in(0,1]$, with
 $f(1/2)=3/4$, $f(2/3)=4/5$ and $f(1)=1$. Theorem~\ref{thm:band} applies
 only on the R1$\wedge$R2 domain (exactly $3\beta\ge2n-1$ in 1D;
-asymptotically $q\ge2/3$), where $f$ takes values in $[4/5,1]$. Values of
-$f$ below $q=2/3$ are evaluations of the closed form outside its domain
+asymptotically $q\ge2/3$), where $f$ takes values in $[(4n+1)/(5n+2),1]$, which tends to $[4/5,1]$ as
+$n\to\infty$ (for example $f=15/19\approx0.789$ at $n=11$, $\beta=7$). Values of $f$ below the exact boundary $3\beta=2n-1$ (asymptotically
+$q=2/3$) are evaluations of the closed form outside its domain
 of validity, not properties of the dynamics; we use them only as a
 comparator curve in Region~II, where they are labelled as such.
 Equation~\eqref{eq:band} is exact for every finite $n$ in the regime.
@@ -629,7 +631,7 @@ for even $n$; we report odd $n$ only.
 
 \subsection{Results and Conjecture~\ref{conj:H3}}
 
-\begin{conjecture}[H3]
+\begin{conjecture}
 \label{conj:H3}
 In Region~II, $E[M]\le f(q)=(2-q)/(3-2q)$ for all $n$ and all admissible
 $r$.
@@ -777,7 +779,7 @@ intervals.
 $\ge30\%$.
 \end{protocol}
 
-\emph{History of the analysis.} A first, pre-registered run (v1) used a
+\emph{History of the analysis.} A first, pre-specified run (v1) used a
 single-reference family statistic and resampled runs independently; a
 post-hoc re-evaluation (v2) changed the bootstrap to a cluster scheme and
 replaced the family statistic. The audit for this version found three
