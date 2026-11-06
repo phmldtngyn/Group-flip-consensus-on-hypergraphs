@@ -1,0 +1,5 @@
+add_cus_dep('tex', 'aux', 0, 'makeaux');
+sub makeaux {
+    my ($base, $path) = @_;
+    system("pdflatex -interaction=nonstopmode $_[0]");
+}
