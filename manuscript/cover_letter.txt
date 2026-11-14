@@ -1,0 +1,58 @@
+Dear Editors,
+
+I submit the manuscript "Exact nonequilibrium steady state of collective
+group-flip dynamics on quenched interaction neighborhoods" for consideration
+as a Regular Article in Physical Review E.
+
+Analytical results for group-update dynamics of two-state units (majority
+rule, nonlinear and group-driven voter models) are almost always obtained on
+annealed structures, where the interacting group is redrawn at every step,
+and the systems relax to absorbing consensus. A recent example in this journal
+is the group-driven voter model of Kim et al. [Phys. Rev. E 111, L052301
+(2025)]. The manuscript addresses two questions that this line of work leaves
+open: whether a group-update dynamics on a quenched structure can be solved
+exactly, and whether an annealed description with the same group size
+reproduces the macroscopic state.
+
+For a group-flip rule, in which a firing node and every node sharing its state
+inside its fixed metric neighborhood switch together, the main results are:
+
+1. An exact stationary majority fraction, E[M] = (2-q)/(3-2q) with q the
+   neighborhood coverage, valid for every finite system size and independent of
+   dimension and topology, under two explicit geometric conditions and equal
+   neighborhood sizes. The proof uses an exact affine closure of the mean
+   minority size; no moment closure or large-n limit is involved. Closed forms
+   follow for the mean absolute magnetization, the rotation and erasure
+   currents and the cycle-length law, and for unequal neighborhoods the closure
+   survives with one effective parameter and gives exact bounds.
+
+2. A noise-free nonequilibrium steady state: there is no absorbing state, the
+   majority fraction equals the fraction of updates that reverse the sign of
+   the magnetization, and one-way erasure transitions break detailed balance at
+   an exactly computed rate.
+
+3. A quantitative separation between quenched and annealed neighborhoods: the
+   annealed version with the same neighborhood size orders less at every size
+   computed (up to n = 3200), and the exact lemmas identify the mechanism
+   (correlation between compact minority domains and neighborhoods).
+
+4. Exact finite-size solutions below the solvable regime, with a closed-form
+   one-step extinction probability and a conjectured upper bound supported by
+   all 17 ring cases with n <= 33.
+
+All results are labelled by status (theorem, numerical observation,
+heuristic, conjecture), and the limitations (two states, extensive
+neighborhoods required by the majority condition, unproven conjecture below
+the solvable regime) are stated in the abstract and the discussion. Complete
+proofs, solver descriptions, validation records and an exploratory regression
+test are in the Supplemental Material; code and data are openly available
+(Zenodo DOI 10.5281/zenodo.24050030).
+
+The manuscript has not been published and is not under consideration
+elsewhere. I believe it fits the scope of Physical Review E in nonequilibrium
+statistical physics and stochastic dynamics on networks.
+
+Sincerely,
+Pham Le Dat Nguyen
+Independent Researcher, Ha Noi, Viet Nam
+phmldtngyn.777@gmail.com
